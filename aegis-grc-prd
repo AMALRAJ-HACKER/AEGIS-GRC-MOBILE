@@ -1,0 +1,939 @@
+# AEGIS GRC — Product Requirements Document (PRD)
+
+***
+
+## 1\. Overview
+
+**App Name:** AEGIS GRC — AI-Powered Governance, Risk, and Compliance Platform
+**Build Type:** Progressive Web App (PWA)
+
+AEGIS GRC is an AI-powered Governance, Risk, and Compliance (GRC) Progressive Web App designed to help organizations centralize and manage their cybersecurity compliance programs, risk registers, policy documentation, evidence libraries, remediation tasks, and audit readiness workflows within a single unified platform. By replacing fragmented spreadsheets, emails, and disconnected documents, AEGIS GRC provides compliance teams, IT/security professionals, auditors, management, and control owners with a structured, collaborative, and intelligible workspace for managing regulatory and framework obligations including ISO/IEC 27001, SOC 2, NIST CSF, GDPR, India's DPDPA, CERT-In directions, and RBI cybersecurity requirements.
+
+The platform is purpose-built for organizations that need a clear, scalable, and mobile-friendly compliance management experience. Target users include GRC and compliance analysts, IT and cybersecurity teams, internal and external auditors, organizational management, employees acting as control owners, and system administrators. The core problems AEGIS GRC solves are the fragmentation of compliance evidence and activities across multiple tools, the difficulty in tracking control status and ownership, the lack of visibility into audit readiness, and the absence of plain-language guidance to help non-specialist stakeholders understand and act on regulatory requirements.
+
+***
+
+## 2\. Essential Core Features
+
+### 2.1 User Authentication and Role-Based Access Control (RBAC)
+
+* Secure registration, login, and password recovery via Supabase Auth
+* Support for the following roles: Administrator, Compliance Analyst, IT/Security Team Member, Auditor, Management, and Employee/Control Owner
+* Role-specific permissions governing read, write, review, approve, and admin operations
+* Invitation-based team onboarding with email invitations
+* Multi-organization (workspace) support with isolated data per workspace
+* Session management and secure token handling
+
+### 2.2 Compliance Dashboard
+
+* Central overview card summarizing overall compliance score/percentage per active framework
+* Visual indicators (progress rings, bar charts) for control status categories: Compliant, In Progress, Not Started, Not Applicable
+* Open risks count with severity breakdown (Critical, High, Medium, Low)
+* Upcoming task deadlines and overdue items highlighted
+* Recent activity feed showing latest evidence uploads, task updates, and risk changes
+* Quick-action shortcuts: Add Risk, Assign Task, Upload Evidence
+* Notification bell for alerts, approvals pending, and deadline reminders
+
+### 2.3 Compliance Frameworks and Controls Register
+
+* Preloaded framework templates including:
+    * ISO/IEC 27001:2022
+    * SOC 2 (Trust Service Criteria)
+    * NIST Cybersecurity Framework (CSF 2.0)
+    * GDPR
+    * Digital Personal Data Protection Act 2023 (DPDPA)
+    * CERT-In Directions
+    * RBI Cybersecurity Framework
+* Framework selection per workspace with ability to activate multiple frameworks simultaneously
+* Controls list view with filtering by domain/category, status, owner, and framework
+* Individual control detail page showing: control ID, title, description, implementation guidance, linked evidence, linked risks, assigned owner, status, and audit history
+* Control status management: Not Started, In Progress, Implemented, Under Review, Not Applicable
+* Bulk control status updates
+* Cross-framework control mapping to identify overlapping requirements
+
+### 2.4 Risk Register
+
+* Create, edit, and archive risk records with fields: Risk ID, Title, Description, Category, Likelihood (1–5), Impact (1–5), Inherent Risk Score (auto-calculated), Control Measures, Residual Risk Score, Risk Owner, Status (Open, Mitigating, Accepted, Closed), Due Date
+* Risk matrix visualization (5x5 heatmap) filterable by category and status
+* Risk-to-control linking
+* Risk history/audit trail per record
+* Filter and search risks by owner, category, severity, and status
+* Export risk register to PDF and CSV
+
+### 2.5 Evidence Management
+
+* Upload documents, images, spreadsheets, and other files to a centralized evidence library
+* Supported file types: PDF, DOCX, XLSX, PNG, JPG, CSV (up to 25 MB per file, stored via Supabase Storage)
+* Link evidence files to one or more controls and/or audit requirements
+* Evidence metadata: Title, Description, Upload Date, Uploaded By, Expiry/Review Date, Linked Controls
+* Evidence status: Valid, Expiring Soon (within 30 days), Expired
+* Search and filter evidence library by control, framework, status, and date
+* Evidence version management (upload new version while retaining history)
+* Evidence request workflow: compliance analysts can request evidence from control owners via in-app task
+
+### 2.6 AI Compliance Assistant (Powered by OpenAI GPT-4o)
+
+* Conversational chat interface accessible from any screen via floating action button or dedicated page
+* Contextual awareness: the AI can reference the active framework, selected control, or current page context
+* Capabilities:
+    * Plain-language explanation of any control or regulatory requirement
+    * Gap analysis suggestions based on current control statuses and missing evidence
+    * Recommended next steps for remediation
+    * Draft policy or procedure language suggestions
+    * Summarization of uploaded evidence documents
+* AI responses tagged with a disclaimer: *"AI-generated content requires review by a qualified compliance professional."*
+* Chat history saved per user session and searchable
+* Ability to export AI-generated suggestions as a task or note linked to a control
+
+### 2.7 Tasks, Remediation, and Approvals
+
+* Task creation with fields: Title, Description, Assigned To, Due Date, Priority (High/Medium/Low), Linked Control, Linked Risk, Status (Open, In Progress, Pending Review, Approved, Closed)
+* Task views: My Tasks, All Tasks (admin/analyst), Overdue Tasks, Upcoming Tasks
+* Approval workflow: task submitter requests review → reviewer approves or rejects with comments
+* In-app notifications and email notifications for task assignments, due date reminders, and approval requests
+* Task comment thread for collaboration
+* Bulk task assignment and status update
+* Recurring task support for periodic reviews
+
+### 2.8 Audit Readiness and Reporting
+
+* Audit Readiness Score displayed as a percentage per framework
+* Pre-built reports:
+    * Control Status Summary Report (by framework, domain, owner)
+    * Evidence Coverage Report (controls with/without linked evidence)
+    * Risk Summary Report (open risks by severity and category)
+    * Task and Remediation Progress Report
+    * Overall Compliance Health Report
+* Report filters: date range, framework, control domain, owner
+* Export reports to PDF and CSV
+* Scheduled report generation (weekly/monthly) delivered via email
+* Audit log accessible to Auditor role: read-only view of all controls, evidence, and status history
+
+### 2.9 Notifications and Alerts
+
+* In-app notification center with read/unread status
+* Push notification support via PWA Web Push API
+* Alert types: task overdue, evidence expiring, approval pending, risk escalation, new user invitation
+* Notification preferences configurable per user
+
+### 2.10 Organization/Workspace Management
+
+* Workspace creation with organization name, industry, and logo upload
+* Invite team members by email with role assignment
+* View and manage all workspace members
+* Deactivate or remove members
+* Workspace-level settings: timezone, default framework, notification preferences
+
+### 2.11 PWA-Specific Capabilities
+
+* Installable on Android and iOS home screens via browser prompt
+* Offline mode: cached dashboard, task list, and control list accessible without connectivity; queued actions sync on reconnect
+* Responsive design optimized for mobile-first use but fully functional on tablet and desktop
+* App manifest and service worker configured for full PWA compliance
+* Fast-loading with lazy-loaded routes and image optimization
+
+***
+
+## 3\. Tech Stack
+
+### 3.1 Front-End
+
+* **Framework:** React 18 with TypeScript
+* **Build Tool:** Vite
+* **Styling:** Tailwind CSS with a custom design token configuration
+* **Component Library:** shadcn/ui (built on Radix UI primitives)
+* **State Management:** React Context API + React Query (TanStack Query) for server state
+* **Routing:** React Router v6
+* **Charts and Visualizations:** Recharts (compliance progress charts, risk heatmap)
+* **Forms:** React Hook Form with Zod validation
+* **PWA Configuration:** Vite PWA Plugin (vite-plugin-pwa) with Workbox for service worker and caching strategy
+
+### 3.2 Back-End
+
+* **Platform:** Supabase
+    * **Authentication:** Supabase Auth (email/password, magic link, invitation flows)
+    * **Database:** Supabase PostgreSQL with Row Level Security (RLS) policies enforcing RBAC
+    * **Storage:** Supabase Storage for evidence file uploads (buckets per workspace)
+    * **Real-Time:** Supabase Realtime for live dashboard updates, task notifications, and activity feed
+    * **Edge Functions:** Supabase Edge Functions (Deno runtime) for AI assistant API calls, report generation, and scheduled notification jobs
+
+### 3.3 AI Integration
+
+* **Model:** OpenAI GPT-4o via Supabase Edge Functions (server-side API calls to prevent key exposure)
+* **Use Cases:**
+    * Control/requirement explanation
+    * Gap analysis and recommendation generation
+    * Evidence summarization
+    * Policy draft suggestions
+* **Context passing:** Active framework ID, control details, and workspace compliance summary passed as structured system context to GPT-4o
+
+### 3.4 APIs and Integrations
+
+* **Email Notifications:** Resend (transactional email API) integrated via Supabase Edge Functions for task assignments, deadline reminders, and report delivery
+* **PDF Generation:** React-PDF or Puppeteer (via Edge Function) for report and evidence exports
+* **CSV Export:** Papa Parse for client-side CSV generation
+* **Web Push Notifications:** Web Push Protocol via Supabase Edge Functions and VAPID keys for PWA push alerts
+* **File Handling:** FilePond or native HTML5 file input with Supabase Storage SDK for evidence uploads
+
+### 3.5 Technical Requirements
+
+* RLS policies on all Supabase tables ensuring workspace data isolation
+* All API keys (OpenAI, Resend) stored as Supabase Edge Function environment secrets — never exposed to client
+* HTTPS enforced on all routes
+* PWA manifest with proper icons (192×192, 512×512), theme color, and display mode: `standalone`
+* Service worker with cache-first strategy for static assets and network-first for API calls
+* Accessibility: WCAG 2.1 AA compliance target across all screens
+
+***
+
+## 4\. Design Preferences
+
+### 4.1 Interface
+
+The interface should convey professionalism, trust, and clarity — a clean, structured, enterprise-grade aesthetic with subtle depth using card-based layouts, clear data hierarchy, and calm color use that reduces cognitive load during complex compliance workflows. The mobile-first PWA layout should feel native, with touch-friendly tap targets (minimum 48×48px), smooth transitions, and a bottom navigation bar for primary sections.
+
+### 4.2 Color Palette
+
+| Role | Color Name | Hex Code |
+| ---- | ---------- | -------- |
+| Primary | Deep Navy | `#0F2D52` |
+| Primary Accent | Electric Blue | `#1D6FE8` |
+| Secondary | Slate Gray | `#4A5568` |
+| Background | Off White | `#F7F8FA` |
+| Surface (Cards) | Pure White | `#FFFFFF` |
+| Success / Compliant | Emerald Green | `#10B981` |
+| Warning / In Progress | Amber | `#F59E0B` |
+| Danger / Critical Risk | Crimson Red | `#EF4444` |
+| Neutral / Not Started | Cool Gray | `#9CA3AF` |
+| Text Primary | Charcoal | `#1A202C` |
+| Text Secondary | Medium Gray | `#718096` |
+| Border / Divider | Light Gray | `#E2E8F0` |
+
+### 4.3 Typography
+
+| Use Case | Font Family | Weight |
+| -------- | ----------- | ------ |
+| Headings (H1–H3) | Inter | 700 (Bold) |
+| Subheadings (H4–H6) | Inter | 600 (SemiBold) |
+| Body Text | Inter | 400 (Regular) |
+| Labels and Captions | Inter | 500 (Medium) |
+| Monospace (IDs, Code) | JetBrains Mono | 400 |
+
+* Base font size: 16px
+* Line height: 1.5 for body, 1.2 for headings
+* Loaded via Google Fonts or self-hosted for PWA offline support
+
+### 4.4 Additional Design Considerations
+
+* **Icon Library:** Lucide React — consistent, clean line icons throughout
+* **Spacing System:** Tailwind default spacing scale (4px base unit)
+* **Border Radius:** Rounded corners — `rounded-xl` (12px) for cards, `rounded-lg` (8px) for buttons and inputs
+* **Shadow:** Subtle card shadows using Tailwind's `shadow-sm` and `shadow-md`
+* **Status Indicators:** Colored dot badges and pill labels for control and risk status
+* **Dark Mode:** System-preference-aware dark mode support using Tailwind's `dark:` variant
+* **Animations:** Framer Motion for page transitions and modal enter/exit animations — subtle, fast (<200ms)
+* **Empty States:** Illustrated empty state components for lists with zero items (controls, risks, evidence)
+* **Loading States:** Skeleton loaders instead of spinners for list and dashboard data fetching
+
+***
+
+## 5\. All Screens/Pages
+
+### 5.1 Authentication Screens
+
+***
+
+#### Screen 1: Splash / PWA Loading Screen
+
+* **Route:** `/` (initial load)
+* **UI Elements:**
+    * Full-screen branded background (Deep Navy)
+    * AEGIS GRC logo centered with animated pulse
+    * Tagline: "Governance, Risk & Compliance — Simplified"
+    * Loading progress indicator
+* **Navigation:** Auto-redirects to `/login` if unauthenticated; to `/dashboard` if authenticated session exists
+* **Conditional:** Shown only during initial PWA load or cold start
+
+***
+
+#### Screen 2: Login Screen
+
+* **Route:** `/login`
+* **UI Elements:**
+    * AEGIS GRC logo and app name
+    * Email input field
+    * Password input field with show/hide toggle
+    * "Forgot Password?" text link
+    * "Sign In" primary button
+    * "Create a new workspace" text link navigating to `/register`
+    * Divider line
+    * Error message display area (invalid credentials, account locked)
+    * PWA install prompt banner (if not already installed)
+* **Navigation:**
+    * Success → `/dashboard`
+    * "Forgot Password?" → `/forgot-password`
+    * "Create workspace" → `/register`
+
+***
+
+#### Screen 3: Registration / Workspace Creation Screen
+
+* **Route:** `/register`
+* **UI Elements:**
+    * Step indicator \(Step 1 of 2: Account Details \| Step 2: Workspace Setup\)
+    * **Step 1:** Full Name, Work Email, Password, Confirm Password, Terms of Service checkbox, "Continue" button
+    * **Step 2:** Organization Name, Industry (dropdown), Country (dropdown), Logo upload (optional), "Create Workspace" button
+    * Back button between steps
+    * "Already have an account?" link to `/login`
+* **Navigation:**
+    * Completion → `/dashboard` (as Administrator role)
+    * Back → `/login`
+
+***
+
+#### Screen 4: Forgot Password Screen
+
+* **Route:** `/forgot-password`
+* **UI Elements:**
+    * Email input field
+    * "Send Reset Link" button
+    * Success state: confirmation message with email icon
+    * Back to Login link
+* **Navigation:** Back → `/login`
+
+***
+
+#### Screen 5: Accept Invitation Screen
+
+* **Route:** `/invite?token=:token`
+* **UI Elements:**
+    * Invitation message: "You've been invited to join [Organization Name] on AEGIS GRC"
+    * Full Name input (pre-filled if available)
+    * Password input and Confirm Password input
+    * "Accept Invitation & Join" button
+    * Assigned role displayed (read-only badge)
+* **Navigation:** Completion → `/dashboard`
+* **Conditional:** Invalid or expired token shows error state with "Request a new invitation" option
+
+***
+
+### 5.2 Core Application Screens
+
+***
+
+#### Screen 6: Main Dashboard
+
+* **Route:** `/dashboard`
+* **UI Elements:**
+    * Top app bar: AEGIS GRC logo, workspace name, notification bell with badge count, user avatar with dropdown menu
+    * Greeting header: "Good morning, [Name]"
+    * **Compliance Health Card:** Active frameworks listed with overall compliance percentage ring chart per framework
+    * **Control Status Summary Card:** Stacked bar chart showing Compliant / In Progress / Not Started / Not Applicable counts
+    * **Risk Overview Card:** Count tiles for Critical, High, Medium, Low open risks with sparkline trend
+    * **My Tasks Card:** List of 3–5 upcoming/overdue tasks with due date, priority badge, and link to `/tasks`
+    * **Recent Activity Feed:** Timestamped list of recent actions (evidence uploads, status changes, new risks)
+    * **Quick Actions Row:** Icon buttons — Add Risk, Upload Evidence, Assign Task, Open AI Assistant
+    * **Upcoming Deadlines Card:** Calendar-style list of tasks and evidence reviews due in the next 14 days
+    * Bottom navigation bar (persistent across all authenticated screens)
+* **Navigation:**
+    * Notification bell → `/notifications`
+    * User avatar → User Profile dropdown (Profile, Settings, Sign Out)
+    * Quick action buttons → respective screens with pre-filled context
+    * Control Status card → `/frameworks`
+    * Risk Overview card → `/risks`
+    * My Tasks card → `/tasks`
+
+***
+
+#### Screen 7: Frameworks List Screen
+
+* **Route:** `/frameworks`
+* **UI Elements:**
+    * Page title: "Compliance Frameworks"
+    * "Add Framework" button (Compliance Analyst / Admin only)
+    * List of activated frameworks as cards, each showing:
+        * Framework logo/icon and name
+        * Compliance percentage ring
+        * Control count summary (Compliant / Total)
+        * Last updated date
+        * "View Controls" CTA button
+    * Empty state with illustration if no frameworks activated
+    * Filter/sort bar: Sort by Name, Compliance %, Last Updated
+* **Navigation:**
+    * "Add Framework" → `/frameworks/add`
+    * "View Controls" per card → `/frameworks/:frameworkId/controls`
+
+***
+
+#### Screen 8: Add / Select Framework Screen
+
+* **Route:** `/frameworks/add`
+* **UI Elements:**
+    * Page title: "Select a Compliance Framework"
+    * Back button
+    * Search input for framework search
+    * Framework cards grid:
+        * ISO/IEC 27001:2022
+        * SOC 2 (TSC)
+        * NIST CSF 2.0
+        * GDPR
+        * DPDPA 2023
+        * CERT-In Directions
+        * RBI Cybersecurity Framework
+    * Each card: Framework name, brief description, number of controls, "Activate" button
+    * Already active frameworks shown with "Active" badge (non-selectable)
+    * "Confirm Activation" confirmation modal before adding
+* **Navigation:** Back → `/frameworks`; Confirmation → `/frameworks/:frameworkId/controls`
+
+***
+
+#### Screen 9: Framework Controls List Screen
+
+* **Route:** `/frameworks/:frameworkId/controls`
+* **UI Elements:**
+    * Page title: Framework name (e.g., "ISO/IEC 27001:2022")
+    * Back button to `/frameworks`
+    * Compliance summary bar: overall % with color-coded status breakdown
+    * Filter bar: Domain/Category (dropdown), Status (multi-select), Owner (searchable dropdown)
+    * Search input for control ID or keyword
+    * Controls list (grouped by domain/category, collapsible):
+        * Each control row: Control ID, Control Title, Status badge (colored pill), Owner avatar, Evidence count icon, "View" chevron
+    * Bulk action toolbar (appears on selection): Assign Owner, Change Status, Assign Task
+    * Floating "Ask AI" button referencing this framework context
+* **Navigation:**
+    * Control row tap → `/frameworks/:frameworkId/controls/:controlId`
+    * Back → `/frameworks`
+    * AI button → AI Assistant panel (slide-up sheet) with framework context pre-loaded
+
+***
+
+#### Screen 10: Control Detail Screen
+
+* **Route:** `/frameworks/:frameworkId/controls/:controlId`
+* **UI Elements:**
+    * Back button to controls list
+    * Control ID and title (H2)
+    * Status selector dropdown (Not Started / In Progress / Implemented / Under Review / Not Applicable)
+    * **Description tab:** Full control description in readable paragraphs
+    * **Implementation Guidance tab:** Step-by-step guidance text
+    * **Evidence tab:**
+        * List of linked evidence files (name, type icon, upload date, expiry indicator)
+        * "Upload Evidence" button → evidence upload sheet
+        * "Link Existing Evidence" button → evidence picker modal
+    * **Linked Risks tab:** List of associated risk records with risk ID, title, severity badge
+    * **Tasks tab:** List of tasks linked to this control with status and owner
+    * **Audit History tab:** Timeline of status changes with actor, date, and previous/new value
+    * Owner field (searchable user picker)
+    * Notes / Comments text area with save button
+    * "Ask AI About This Control" button — opens AI assistant with this control as context
+    * "Create Task" button pre-linked to this control
+    * "Add Risk" button pre-linked to this control
+* **Navigation:**
+    * Back → `/frameworks/:frameworkId/controls`
+    * Evidence upload → evidence upload modal
+    * Create Task → task creation modal
+    * Add Risk → risk creation modal
+
+***
+
+#### Screen 11: Risk Register List Screen
+
+* **Route:** `/risks`
+* **UI Elements:**
+    * Page title: "Risk Register"
+    * "Add Risk" button (Compliance Analyst / Admin / IT Team)
+    * View toggle: List View \| Matrix View
+    * **List View:**
+        * Filter bar: Category, Severity, Status, Owner
+        * Search input
+        * Risk cards/rows: Risk ID, Title, Category badge, Inherent Score colored badge, Residual Score, Owner, Status, Due Date, action menu (Edit, Archive)
+    * **Matrix View:**
+        * 5×5 interactive heatmap grid (Likelihood vs. Impact)
+        * Risks plotted as clickable dots; tooltip on hover/tap showing risk title and ID
+        * Color zones: Red (Critical), Orange (High), Yellow (Medium), Green (Low)
+    * Export button: PDF / CSV
+    * Empty state illustration if no risks recorded
+* **Navigation:**
+    * "Add Risk" → `/risks/new` or risk creation modal
+    * Risk row tap → `/risks/:riskId`
+    * Export → download file
+
+***
+
+#### Screen 12: Risk Detail / Create / Edit Screen
+
+* **Route:** `/risks/:riskId` \| `/risks/new`
+* **UI Elements:**
+    * Back button
+    * Page title: "New Risk" or risk title (edit mode)
+    * Form fields:
+        * Risk Title (text input)
+        * Description (textarea)
+        * Category (dropdown: Operational, Technical, Compliance, Strategic, Financial, Other)
+        * Likelihood slider (1–5 with labels: Rare to Almost Certain)
+        * Impact slider (1–5 with labels: Negligible to Catastrophic)
+        * Inherent Risk Score (auto-calculated, read-only colored badge)
+        * Control Measures (textarea)
+        * Residual Risk Score (manual input with slider)
+        * Risk Owner (user picker)
+        * Status (dropdown: Open, Mitigating, Accepted, Closed)
+        * Due Date (date picker)
+        * Linked Controls (multi-select search)
+    * Audit history section (detail view only)
+    * "Save Risk" / "Update Risk" primary button
+    * "Archive Risk" destructive button (edit mode, Admin/Analyst only)
+    * "Create Task from Risk" shortcut button
+* **Navigation:** Back → `/risks`; Save → `/risks/:riskId` (detail view)
+
+***
+
+#### Screen 13: Evidence Library Screen
+
+* **Route:** `/evidence`
+* **UI Elements:**
+    * Page title: "Evidence Library"
+    * "Upload Evidence" primary button
+    * Search bar with keyword search
+    * Filter bar: Framework, Control, Status (Valid / Expiring / Expired), Date Range
+    * Evidence list/grid toggle:
+        * Each item: File type icon, File Name, Linked Controls count, Upload Date, Review/Expiry Date (with color indicator), Uploaded By avatar, action menu (View, Download, Re-link, Delete)
+    * Status pills: Valid (green), Expiring Soon (amber), Expired (red)
+    * Bulk selection with bulk "Re-link to Controls" and "Delete" actions
+    * Empty state with upload illustration
+* **Navigation:**
+    * "Upload Evidence" → evidence upload modal/sheet
+    * Evidence item tap → `/evidence/:evidenceId`
+
+***
+
+#### Screen 14: Evidence Upload Modal / Sheet
+
+* **Route:** Modal overlay (accessible from multiple screens)
+* **UI Elements:**
+    * Drag-and-drop / tap-to-upload file area
+    * File type and size limit note
+    * File preview (name, size, type icon)
+    * Metadata fields:
+        * Title (auto-populated from filename, editable)
+        * Description (textarea)
+        * Review / Expiry Date (date picker)
+        * Link to Controls (multi-select search)
+        * Link to Frameworks (multi-select)
+    * Upload progress bar
+    * "Upload" and "Cancel" buttons
+* **Navigation:** Close → returns to originating screen; Success → evidence added to library and linked controls
+
+***
+
+#### Screen 15: Evidence Detail Screen
+
+* **Route:** `/evidence/:evidenceId`
+* **UI Elements:**
+    * Back button
+    * File preview pane (PDF inline viewer or file type icon for non-previewable files)
+    * Metadata panel:
+        * Title, Description, Uploader, Upload Date, Expiry Date, Status badge
+    * Linked Controls section: list of linked controls with framework labels and navigation links
+    * Version History: previous versions with upload date and uploader, download links
+    * "Upload New Version" button
+    * "Download" button
+    * "Edit Metadata" button
+    * "Delete Evidence" (Admin/Analyst only)
+    * Comments/Notes section
+* **Navigation:** Back → `/evidence`
+
+***
+
+#### Screen 16: Tasks Screen
+
+* **Route:** `/tasks`
+* **UI Elements:**
+    * Page title: "Tasks & Remediation"
+    * "Create Task" button
+    * Tab bar: My Tasks \| All Tasks \| Pending Approval \| Overdue
+    * Filter bar: Priority, Status, Assigned To, Due Date Range, Linked Control
+    * Search input
+    * Task list cards:
+        * Title, Priority badge (color-coded), Status badge, Assigned To avatar, Due Date, Linked Control chip, action menu (Edit, Reassign, Mark Complete, Delete)
+    * Overdue tasks highlighted with red left border
+    * "All Tasks" tab visible to Admins and Compliance Analysts only
+    * Empty state per tab
+* **Navigation:**
+    * Task card tap → `/tasks/:taskId`
+    * "Create Task" → task creation modal
+
+***
+
+#### Screen 17: Task Detail / Create / Edit Screen
+
+* **Route:** `/tasks/:taskId` \| `/tasks/new`
+* **UI Elements:**
+    * Back button
+    * Task Title input
+    * Description (rich text or textarea)
+    * Priority selector (High / Medium / Low — segmented control)
+    * Status selector (Open / In Progress / Pending Review / Approved / Closed)
+    * Assigned To (user picker)
+    * Due Date (date picker)
+    * Linked Control (searchable picker)
+    * Linked Risk (searchable picker)
+    * Recurring toggle (Yes/No; if Yes: frequency selector Weekly/Monthly/Quarterly)
+    * **Comments / Collaboration section:**
+        * Threaded comment list with user avatar, timestamp, and message
+        * Comment input with "Post" button
+    * **Approval Section (if status is Pending Review):**
+        * Reviewer picker
+        * "Submit for Review" button (submitter)
+        * "Approve" and "Reject" buttons with optional rejection notes (reviewer)
+    * Audit trail of status changes
+    * "Save Task" / "Update Task" button
+    * "Delete Task" (Admin only)
+* **Navigation:** Back → `/tasks`
+
+***
+
+#### Screen 18: AI Compliance Assistant Screen
+
+* **Route:** `/ai-assistant`
+* **UI Elements:**
+    * Page title: "AI Compliance Assistant"
+    * Disclaimer banner: "AI responses require review by a qualified compliance professional."
+    * Context selector: "Currently discussing: [Framework Name / Control ID / General]" — tap to change context
+    * Chat message list:
+        * User message bubbles (right-aligned, primary color)
+        * AI response bubbles (left-aligned, white card with AEGIS AI avatar)
+        * Timestamps
+        * AI responses with "Export as Task" and "Copy" action icons
+        * Loading state: typing indicator (three animated dots)
+    * Suggested prompts chip row (e.g., "Explain this control", "What evidence do I need?", "Identify gaps in my current posture", "Draft a policy for access control")
+    * Input bar: text input + send button + attachment icon (for evidence document upload to summarize)
+    * "New Conversation" button to clear chat
+    * Chat history sidebar (collapsible on mobile): past sessions listed by date
+* **Navigation:**
+    * Accessible from bottom nav
+    * "Export as Task" → task creation modal pre-populated with AI suggestion as description
+    * Context selector → framework/control picker modal
+
+***
+
+#### Screen 19: Audit Readiness and Reports Screen
+
+* **Route:** `/reports`
+* **UI Elements:**
+    * Page title: "Audit Readiness & Reports"
+    * **Audit Readiness Score Card:** Large percentage display per framework with color indicator; last updated timestamp
+    * Report type selector (horizontal scrollable chip list):
+        * Control Status Summary
+        * Evidence Coverage
+        * Risk Summary
+        * Task & Remediation Progress
+        * Overall Compliance Health
+    * Selected report preview:
+        * Charts and tables relevant to report type
+        * Date range filter
+        * Framework and domain filter
+    * "Generate Report" button (triggers full report build)
+    * "Export PDF" and "Export CSV" buttons
+    * Schedule Report toggle: frequency (Weekly/Monthly), recipients (multi-user picker), "Save Schedule" button
+    * Audit Log access button (visible to Auditor role): navigates to `/audit-log`
+* **Navigation:**
+    * "Export PDF/CSV" → file download
+    * "Audit Log" → `/audit-log`
+
+***
+
+#### Screen 20: Audit Log Screen
+
+* **Route:** `/audit-log`
+* **UI Elements:**
+    * Page title: "Audit Log"
+    * Read-only access indicator badge
+    * Filter bar: Date Range, Actor (user), Record Type (Control, Risk, Evidence, Task), Action Type (Created, Updated, Deleted, Status Changed)
+    * Search by record ID or actor name
+    * Log entries list:
+        * Timestamp, Actor name and avatar, Action description, Record type badge, Record ID/link
+    * Pagination controls
+    * Export log as CSV button
+* **Access:** Visible to Auditor, Compliance Analyst, and Administrator roles
+* **Navigation:** Back → `/reports`
+
+***
+
+#### Screen 21: Notifications Screen
+
+* **Route:** `/notifications`
+* **UI Elements:**
+    * Page title: "Notifications"
+    * "Mark All as Read" button
+    * Filter tabs: All \| Tasks \| Risks \| Evidence \| Approvals \| System
+    * Notification list:
+        * Notification icon (color-coded by type), message text, relative timestamp, read/unread indicator dot
+        * Tap navigates to the relevant record
+    * Empty state for no notifications
+    * Notification preferences link → `/settings/notifications`
+* **Navigation:** Notification tap → relevant screen (task, risk, evidence, etc.)
+
+***
+
+#### Screen 22: User Profile Screen
+
+* **Route:** `/profile`
+* **UI Elements:**
+    * Profile photo (uploadable) with change button
+    * Full Name input
+    * Email (read-only)
+    * Role badge (read-only)
+    * Job Title input
+    * Department input
+    * Phone Number input (optional)
+    * "Save Changes" button
+    * Change Password section: Current Password, New Password, Confirm New Password, "Update Password" button
+    * Two-Factor Authentication toggle (future-ready UI, initially informational)
+    * "Sign Out" button (destructive styling)
+* **Navigation:** Back → Dashboard or previous screen via back button
+
+***
+
+#### Screen 23: Organization Settings Screen
+
+* **Route:** `/settings`
+* **UI Elements:**
+    * Page title: "Organization Settings"
+    * Tab navigation: General \| Team \| Notifications \| Integrations
+    * **General Tab:**
+        * Organization name input
+        * Industry dropdown
+        * Country dropdown
+        * Logo upload/change
+        * Timezone selector
+        * "Save Settings" button
+    * **Team Tab:**
+        * Member list: Avatar, Name, Email, Role badge, Status (Active/Invited/Deactivated), action menu (Edit Role, Deactivate, Resend Invite)
+        * "Invite Member" button → invite modal with Email and Role fields
+        * Role descriptions accordion
+    * **Notifications Tab:**
+        * Toggle list per notification type (Task Overdue, Evidence Expiring, Approval Request, etc.)
+        * Email notification toggle
+        * Push notification toggle with browser permission request
+        * Email digest frequency selector (Immediate / Daily / Weekly)
+        * "Save Preferences" button
+    * **Integrations Tab (placeholder/future):**
+        * Grayed-out integration cards with "Coming Soon" badges
+* **Access:** Administrator only for Team tab; all roles for Notifications tab
+* **Navigation:** Back → Dashboard
+
+***
+
+#### Screen 24: 404 / Error Screen
+
+* **Route:** `*` (catch-all)
+* **UI Elements:**
+    * AEGIS GRC logo
+    * Large "404" or error code text
+    * Friendly error message
+    * "Go to Dashboard" button
+    * Illustration (lost/confused character)
+* **Navigation:** CTA → `/dashboard`
+
+***
+
+## 6\. App Menu and Navigation Structure
+
+### 6.1 Navigation System
+
+AEGIS GRC uses a **bottom navigation bar** as the primary navigation pattern for the PWA, optimized for mobile thumb-zone accessibility. A **top app bar** provides contextual actions and branding. A **slide-out hamburger side drawer** provides access to secondary screens.
+
+### 6.2 Bottom Navigation Bar (Persistent — All Authenticated Screens)
+
+Five primary navigation tabs:
+
+| Tab Icon | Label | Route |
+| -------- | ----- | ----- |
+| Grid / House icon | Dashboard | `/dashboard` |
+| Shield / Layers icon | Frameworks | `/frameworks` |
+| Alert Triangle icon | Risks | `/risks` |
+| Checkbox icon | Tasks | `/tasks` |
+| Sparkles / Bot icon | AI Assistant | `/ai-assistant` |
+
+* Active tab highlighted with Electric Blue underline and icon fill
+* Badge counts on Tasks tab (overdue count) and Dashboard tab (pending approvals)
+
+### 6.3 Top App Bar
+
+* Left: Hamburger menu icon (opens side drawer) OR back arrow on sub-screens
+* Center: Page title or AEGIS GRC logo on Dashboard
+* Right: Notification bell icon (with unread badge) + User avatar (opens profile/settings mini-menu)
+
+### 6.4 Side Drawer (Hamburger Menu)
+
+Accessible from all main screens via top-left hamburger icon. Contains:
+
+```
+AEGIS GRC [Logo + Workspace Name]
+[User Avatar + Name + Role badge]
+
+—— MAIN ——
+  Dashboard             /dashboard
+  Frameworks            /frameworks
+  Risk Register         /risks
+  Tasks & Remediation   /tasks
+  AI Assistant          /ai-assistant
+
+—— COMPLIANCE ——
+  Evidence Library      /evidence
+  Reports & Audit       /reports
+  Audit Log             /audit-log
+
+—— ACCOUNT ——
+  My Profile            /profile
+  Organization Settings /settings  [Admin only]
+  Notifications         /notifications
+
+—— ——
+  Sign Out
+```
+
+### 6.5 Navigation Hierarchy
+
+```
+/ (Splash)
+└── /login
+    ├── /forgot-password
+    └── /register
+/invite
+└── [Accept → /dashboard]
+
+/dashboard  [Home]
+├── /notifications
+├── /profile
+└── /settings
+
+/frameworks  [Bottom Nav Tab 2]
+├── /frameworks/add
+└── /frameworks/:frameworkId/controls
+    └── /frameworks/:frameworkId/controls/:controlId
+
+/risks  [Bottom Nav Tab 3]
+├── /risks/new
+└── /risks/:riskId
+
+/tasks  [Bottom Nav Tab 4]
+├── /tasks/new
+└── /tasks/:taskId
+
+/ai-assistant  [Bottom Nav Tab 5]
+
+/evidence  [Side Drawer]
+└── /evidence/:evidenceId
+
+/reports  [Side Drawer]
+└── /audit-log
+
+/profile  [Top Bar Avatar]
+/settings  [Side Drawer — Admin]
+/notifications  [Top Bar Bell]
+```
+
+### 6.6 In-Screen Navigation Patterns
+
+* **Sheet/Bottom Sheet:** Used for evidence upload, AI context selection, and quick task creation — slide-up overlay preserving screen context
+* **Modal Dialogs:** Used for confirmations (delete, archive, framework activation)
+* **Tabs:** Used within Control Detail (Description / Guidance / Evidence / Risks / Tasks / Audit History) and Settings screens
+* **Breadcrumb (top of sub-screens):** Framework Name → Domain → Control ID on control detail screen
+* **Back Button:** Present on all sub-screens, navigates up the hierarchy or to the previous screen
+
+***
+
+## 7\. User Flow
+
+### 7.1 Onboarding Flow (New Organization)
+
+1. User visits AEGIS GRC PWA URL on their mobile browser; splash screen appears for 2 seconds
+2. User is redirected to `/login`; taps "Create a new workspace"
+3. On `/register` Step 1, user enters Full Name, Work Email, Password, and accepts Terms — taps "Continue"
+4. On Step 2, user enters Organization Name, selects Industry and Country, optionally uploads a logo — taps "Create Workspace"
+5. Supabase Auth creates user account; workspace record is created in the database; user is assigned Administrator role
+6. User lands on `/dashboard` — a welcome banner guides them: "Start by activating a compliance framework"
+7. User taps "Add Framework" shortcut on the dashboard or navigates to `/frameworks` via bottom nav
+8. On `/frameworks/add`, user browses available frameworks, taps "Activate" on ISO/IEC 27001:2022
+9. Confirmation modal appears — user taps "Confirm"
+10. User is navigated to `/frameworks/iso27001/controls` — all controls pre-populated from the framework template, all statuses set to "Not Started"
+
+### 7.2 Compliance Framework Review Flow
+
+11. On the controls list, user sees controls grouped by domain (e.g., A.5 Organizational Controls)
+12. User taps on a control row (e.g., A.5.1 — Policies for Information Security)
+13. On the control detail screen, user reads the description on the "Description" tab
+14. User taps "Ask AI About This Control" — AI assistant panel slides up with the control pre-loaded as context
+15. AI explains the control in plain language and suggests what evidence is typically expected
+16. User dismisses the AI panel, taps the "Implementation Guidance" tab for structured steps
+17. User taps the Status dropdown and changes it from "Not Started" to "In Progress"
+18. User taps the Owner field and selects a team member from the user picker — taps "Save"
+19. User taps "Create Task" — task creation modal opens pre-linked to this control
+20. User fills in task title, assigns it to the selected control owner, sets a due date, sets priority to High — taps "Save Task"
+21. The assigned team member receives an in-app notification and (if enabled) an email notification about the new task
+
+### 7.3 Evidence Upload Flow
+
+22. Control owner receives task notification, navigates to `/tasks`, opens the task on the "My Tasks" tab
+23. Control owner reads task description, taps the linked control chip to view the control detail
+24. On the "Evidence" tab of the control detail, control owner taps "Upload Evidence"
+25. The evidence upload bottom sheet slides up; user taps the upload area and selects a PDF file from their device
+26. User enters a title, description, and sets an expiry date; the linked control is pre-populated
+27. User taps "Upload" — upload progress bar runs; success confirmation appears
+28. The evidence item appears in the "Evidence" tab of the control with a "Valid" green badge
+29. The control owner returns to the task, leaves a comment: "Evidence uploaded — access policy document attached" — taps "Post"
+30. Task status is changed to "Pending Review" — compliance analyst receives an approval request notification
+
+### 7.4 Approval and Remediation Flow
+
+31. Compliance analyst navigates to `/tasks`, taps the "Pending Approval" tab
+32. Analyst opens the task, reviews the comment, taps the linked evidence to preview the uploaded document
+33. Analyst is satisfied — taps "Approve" with optional comment "Approved — evidence meets requirement"
+34. Task status changes to "Approved"; control status is updated to "Implemented" by the analyst
+35. Dashboard compliance percentage for ISO/IEC 27001 increments accordingly
+
+### 7.5 Risk Management Flow
+
+36. Compliance analyst navigates to `/risks` via bottom nav
+37. Analyst taps "Add Risk" — risk creation screen opens at `/risks/new`
+38. Analyst fills in risk title: "Unauthorized access to sensitive HR data", selects Category "Technical", sets Likelihood to 3 and Impact to 5 (Inherent Score auto-calculates to 15 — Critical)
+39. Analyst fills in control measures, sets Residual Score to 8, assigns a risk owner, sets status to "Open", sets a due date
+40. Analyst links this risk to control A.8.3 and taps "Save Risk"
+41. Risk appears in the risk register list with a Critical red badge; in Matrix View, the risk dot appears in the red zone
+42. Risk owner receives a notification; a related task can be created from the risk detail screen
+
+### 7.6 AI Assistant Standalone Flow
+
+43. User taps the "AI Assistant" bottom nav tab — navigates to `/ai-assistant`
+44. User sees the disclaimer banner and a set of suggested prompt chips
+45. User taps "Identify gaps in my current posture" — AI receives workspace compliance context (framework, control statuses) and responds with a structured gap analysis
+46. AI identifies 3 controls with no evidence and 2 controls with expired evidence, suggests creating tasks for each
+47. User taps "Export as Task" on one of the AI's suggestions — task creation modal opens with AI suggestion pre-filled as the task description
+48. User confirms task details and assigns to the relevant owner — taps "Save Task"
+
+### 7.7 Audit Readiness and Reporting Flow
+
+49. As audit date approaches, Compliance Analyst navigates to `/reports` via side drawer
+50. The Audit Readiness Score card shows 68% for ISO/IEC 27001 — amber status
+51. Analyst selects "Evidence Coverage" report type — chart shows 32 controls without linked evidence
+52. Analyst exports the report as PDF to share with management — taps "Export PDF", download initiates
+53. Analyst switches to "Control Status Summary" report, reviews by domain, identifies A.9 (Access Control) domain as lagging
+54. Analyst navigates back to the frameworks controls list, filters by A.9 domain and "Not Started" status, performs bulk assignment of an owner to all unstarted A.9 controls
+55. Analyst sets up a scheduled weekly compliance health report: taps "Schedule Report", selects "Overall Compliance Health", frequency "Weekly", adds management email addresses — taps "Save Schedule"
+56. Auditor (external) is invited via `/settings` → Team tab → "Invite Member" with Auditor role
+57. Auditor accepts invitation email, logs in, and navigates to `/audit-log` — sees a read-only chronological log of all compliance activities, status changes, and evidence uploads
+58. Auditor can navigate to individual framework controls and view linked evidence in read-only mode, providing audit confidence in the compliance record
+
+### 7.8 PWA Installation Flow
+
+59. On first visit via mobile browser (Chrome/Safari), browser displays a PWA install banner or an in-app prompt appears after 30 seconds of usage
+60. User taps "Add to Home Screen" — browser native install dialog appears
+61. User confirms — AEGIS GRC icon appears on the device home screen
+62. On subsequent launches via the home screen icon, the app opens in standalone mode (no browser chrome), with offline-cached content available immediately
+63. When offline, the cached dashboard, control list, and task list are displayed; any actions taken (status updates, task completions) are queued and synced automatically when connectivity is restored
+
+***
+
+*End of AEGIS GRC Product Requirements Document*
+

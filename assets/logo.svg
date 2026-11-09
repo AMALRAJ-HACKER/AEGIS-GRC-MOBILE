@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="AEGIS GRC">
+  <rect width="1024" height="1024" fill="#0A1931"/>
+  <g transform="translate(0 -14)">
+    <path d="M292 286 Q512 218 732 286 L732 440 C732 640 672 740 512 800 C352 740 292 640 292 440 Z" fill="#FFFFFF"/>
+    <path d="M400.0 512.0 L478.0 590.0 L636.0 418.0" fill="none" stroke="#0FA3B1" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="none" stroke="#0FA3B1" stroke-width="12" stroke-linecap="round">
+    <path d="M669.2 216.5 A190.0 190.0 0 0 1 803.5 350.8"/>
+    <path d="M683.4 163.3 A245.0 245.0 0 0 1 856.7 336.6"/>
+    <path d="M697.6 110.2 A300.0 300.0 0 0 1 909.8 322.4"/>
+    </g>
+    <circle cx="856.7" cy="336.6" r="13" fill="#0FA3B1"/>
+  </g>
+</svg>

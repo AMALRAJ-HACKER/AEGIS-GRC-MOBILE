@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "AEGIS GRC",
+    "slug": "aegis-grc",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "aegisgrc",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.aegis.grc"
+    },
+    "android": {
+      "package": "com.aegis.grc",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A1931"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#0A1931"
+        }
+      ],
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-image-picker",
+      "expo-sharing",
+      "expo-web-browser",
+      "expo-asset"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
