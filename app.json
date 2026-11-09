@@ -35,8 +35,7 @@
       "expo-secure-store",
       "expo-image-picker",
       "expo-sharing",
-      "expo-web-browser",
-      "expo-asset"
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
